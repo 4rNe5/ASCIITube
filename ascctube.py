@@ -1,3 +1,7 @@
+# Created By 4rNe5
+# ASCIITube Code
+# Creatred on 2023/06/13 - Tuesday
+
 import cv2
 import os
 import sys
