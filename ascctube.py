@@ -9,7 +9,7 @@ from pytube import YouTube
 
 def download_video(url):
     yt = YouTube(url)
-    video = yt.streams.filter(file_extension='mp4', res='360p').first()
+    video = yt.streams.filter(file_extension='mp4', res='480p').first()
     video.download(filename='temp_video.mp4')
 
 def video_to_ascii(video_path, output_path, scale=0.1):
