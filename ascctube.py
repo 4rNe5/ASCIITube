@@ -41,7 +41,8 @@ def video_to_ascii(video_path, output_path, scale=0.1):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    url = input("유튜브 영상 링크를 입력하세요 : ")
+    url = input("변환할 유튜브 영상의 링크를 입력하세요 : ")
+    print("영상을 ASCII Art로 변환중입니다...")
     download_video(url)
     try:
         video_to_ascii('temp_video.mp4', 'ascii_video.txt')
