@@ -1,16 +1,20 @@
-# Created By 4rNe5
-# ASCIITube Code
-# Creatred on 2023/06/13 - Tuesday
-
 import cv2
 import os
 import sys
+import re
 from pytube import YouTube
 
-def download_video(url):
+def is_valid_url(url):
+    pattern = re.compile(r'(https?://)?(www\.)?youtube\.com/watch\?v=[\w-]{11}')
+    return pattern.match(url) is not None
+
+def download_video(url, resolution):
     yt = YouTube(url)
-    video = yt.streams.filter(file_extension='mp4', res='480p').first()
+    video = yt.streams.filter(file_extension='mp4', res=resolution).first()
+    if video is None:
+        return False
     video.download(filename='temp_video.mp4')
+    return True
 
 def video_to_ascii(video_path, output_path, scale=0.1):
     cap = cv2.VideoCapture(video_path)
@@ -41,9 +45,21 @@ def video_to_ascii(video_path, output_path, scale=0.1):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    url = input("변환할 유튜브 영상의 링크를 입력하세요 : ")
-    print("영상을 ASCII Art로 변환중입니다...")
-    download_video(url)
+    while True:
+        url = input("변환할 유튜브 영상의 링크를 입력하세요 : ")
+        if is_valid_url(url):
+            break
+        else:
+            print("올바른 유튜브 링크를 입력해주세요.")
+
+    while True:
+        resolution = input("다운로드할 영상의 해상도를 입력하세요 (예: 480p, 720p, 1080p): ")
+        print("영상을 ASCII Art로 변환중입니다...")
+        if download_video(url, resolution):
+            break
+        else:
+            print("불가능한 해상도입니다. 다른 해상도를 지정해주세요.")
+
     try:
         video_to_ascii('temp_video.mp4', 'ascii_video.txt')
     finally:
