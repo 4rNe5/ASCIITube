@@ -50,7 +50,7 @@ def video_to_ascii(video_path, output_path, scale=0.1):
 
 if __name__ == "__main__":
     while True:
-        url = input("변환할 유튜브 영상의 링크를 입력하세요 : ")
+        url = input("ASCII Art로 변환할 유튜브 영상의 링크를 입력하세요 : ")
         if is_valid_url(url):
             break
         else:
