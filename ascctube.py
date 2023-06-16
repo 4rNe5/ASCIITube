@@ -1,3 +1,7 @@
+# ASCIITube - ASCII Art Video Generator
+# Made By 4rNe5
+# Finally Edited at 2023.6.16(Fri)
+
 import cv2
 import os
 import sys
@@ -53,12 +57,12 @@ if __name__ == "__main__":
             print("올바른 유튜브 링크를 입력해주세요.")
 
     while True:
-        resolution = input("다운로드할 영상의 해상도를 입력하세요 (예: 480p, 720p, 1080p): ")
-        print("영상을 ASCII Art로 변환중입니다...")
+        resolution = input("다운로드할 영상의 해상도를 입력하세요 (예: 480p, 720p...) : ")
+        print("해당 영상을 ASCII Art Video로 변환중입니다. 잠시만 기다려주세요...")
         if download_video(url, resolution):
             break
         else:
-            print("불가능한 해상도입니다. 다른 해상도를 지정해주세요.")
+            print("재생이 불가능한 해상도입니다. 다른 해상도를 지정해주세요.")
 
     try:
         video_to_ascii('temp_video.mp4', 'ascii_video.txt')
