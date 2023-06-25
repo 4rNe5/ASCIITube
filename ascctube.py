@@ -69,3 +69,4 @@ if __name__ == "__main__":
     finally:
         if os.path.exists('temp_video.mp4'):
             os.remove('temp_video.mp4')
+            print("")
