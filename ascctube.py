@@ -1,10 +1,5 @@
-# ASCIITube - ASCII Art Video Generator
-# Made By 4rNe5
-# Finally Edited at 2023.6.16(Fri)
-
 import cv2
 import os
-import sys
 import re
 from pytube import YouTube
 
@@ -20,7 +15,7 @@ def download_video(url, resolution):
     video.download(filename='temp_video.mp4')
     return True
 
-def video_to_ascii(video_path, output_path, scale=0.1):
+def video_to_ascii(video_path, output_path):
     cap = cv2.VideoCapture(video_path)
     ascii_chars = ["@", "#", "S", "%", "?", "*", "+", ";", ":", ",", "."]
 
@@ -30,7 +25,12 @@ def video_to_ascii(video_path, output_path, scale=0.1):
             break
 
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        resized_frame = cv2.resize(gray_frame, (int(gray_frame.shape[1] * scale), int(gray_frame.shape[0] * scale)), interpolation=cv2.INTER_AREA)
+
+        # (1) Calculate the aspect ratio and resize the frame accordingly
+        aspect_ratio = gray_frame.shape[1] / gray_frame.shape[0]
+        new_width = 120
+        new_height = int(new_width / aspect_ratio)
+        resized_frame = cv2.resize(gray_frame, (new_width, new_height), interpolation=cv2.INTER_AREA)
 
         ascii_frame = ""
         for i in range(resized_frame.shape[0]):
@@ -42,7 +42,7 @@ def video_to_ascii(video_path, output_path, scale=0.1):
         os.system("cls" if os.name == "nt" else "clear")
         print(ascii_frame)
 
-        if cv2.waitKey(30) & 0xFF == ord('q'):
+        if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
     cap.release()
@@ -50,19 +50,19 @@ def video_to_ascii(video_path, output_path, scale=0.1):
 
 if __name__ == "__main__":
     while True:
-        url = input("ASCII Art로 변환할 유튜브 영상의 링크를 입력하세요 : ")
+        url = input("Input Youtube Video Link for Convert to ASCII Art : ")
         if is_valid_url(url):
             break
         else:
-            print("올바른 유튜브 링크를 입력해주세요.")
+            print("Uncorrect URL. Please Enter Correct URL")
 
     while True:
-        resolution = input("다운로드할 영상의 해상도를 입력하세요 (예: 480p, 720p...) : ")
-        print("해당 영상을 ASCII Art Video로 변환중입니다. 잠시만 기다려주세요...")
+        resolution = input("Input Video Resolution (ex: 480p, 720p...) : ")
+        print("Convert Video to ASCII Art.....")
         if download_video(url, resolution):
             break
         else:
-            print("재생이 불가능한 해상도입니다. 다른 해상도를 지정해주세요.")
+            print("Uncorrect Resolution. Please Enter Available Resolution")
 
     try:
         video_to_ascii('temp_video.mp4', 'ascii_video.txt')
